@@ -3,112 +3,60 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Script Dashboard</title>
-    <link rel="stylesheet" href="./styles.css">
+
+    <!-- Your base stylesheet -->
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./dashboard_styles.css" />
+
 </head>
 
 <body>
-    <!-- Fixed Header -->
-    <div class="header">
-        <img src="https://images.squarespace-cdn.com/content/v1/62dc575aa4e96a7e08d02af6/8762015d-2778-4143-a370-f22054ff6f25/Untitled+design+%2830%29.png"
-            alt="Logo">
-        <div class="header-title">Script Dashboard</div>
-    </div>
+    <header>
+        <h1>Script Dashboard</h1>
+        <p>Manage and view all your project scripts in one place</p>
+    </header>
 
-    <!-- Carousel -->
-    <div class="carousel-container" id="carousel">
-        <div class="lines">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </div>
-        <button class="arrow left" id="prevBtn">&#10094;</button>
-        <button class="arrow right" id="nextBtn">&#10095;</button>
-        <div class="track" id="track"></div>
-    </div>
+    <main>
+        <section>
+            <h2>Scripts</h2>
+            <div class="grid">
+                <div class="project">
+                    <h3><a href="#">Script1.py</a></h3>
+                    <p>Description</p>
+                    <div class="meta">
+                        Language: Python • Auto executed 24 hours ago
+                    </div>
+                </div>
 
-    <script>
-        const icons = [
-            { name: "icon1", status: "Ready", time: "10:15", date: "2025-09-15" },
-            { name: "icon2", status: "Pending", time: "11:20", date: "2025-09-15" },
-            { name: "icon3", status: "Error", time: "12:45", date: "2025-09-15" },
-            { name: "icon4", status: "Running", time: "13:30", date: "2025-09-15" },
-            { name: "icon5", status: "Complete", time: "14:10", date: "2025-09-15" },
-            { name: "icon6", status: "Complete", time: "14:10", date: "2025-09-15" },
-        ];
+                <div class="project">
+                    <h3><a href="#">Script2.py</a></h3>
+                    <p>Description</p>
+                    <div class="meta">
+                        Language: Python • Auto executed 24 hours ago
+                    </div>
+                </div>
 
-        const track = document.getElementById("track");
-        const container = document.getElementById("carousel");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
+                <div class="project">
+                    <h3><a href="#">Script3.py</a></h3>
+                    <p>Description</p>
+                    <div class="meta">
+                        Language: Python • Auto executed 24 hours ago
+                    </div>
+                </div>
+            </div>
+            <div class="project">
+                <h3><a href="#">Script4.py</a></h3>
+                <p>Description</p>
+                <div class="meta">
+                    Language: Python • Auto executed 24 hours ago
+                </div>
+            </div>
+        </section>
+    </main>
 
-        // Duplicate icons for infinite scroll
-        const fullIcons = [...icons, ...icons, ...icons];
-        fullIcons.forEach((icon) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `
-        <div class="overlay"><span>▶</span></div>
-        <div class="name">${icon.name}</div>
-        <div class="meta">
-          Status: <span>${icon.status}</span><br>
-          ${icon.time} · ${icon.date}
-        </div>
-      `;
-            card.addEventListener("click", () => alert(`Running the script ${icon.name}`));
-            track.appendChild(card);
-        });
-
-        let x = 0;
-        let speed = 50; // px/sec
-        let lastTime = performance.now();
-        let paused = false;
-
-        function step(now) {
-            const dt = now - lastTime;
-            lastTime = now;
-            if (!paused) {
-                x -= (speed * dt) / 1000;
-                const totalWidth = track.scrollWidth / 3;
-                if (-x >= totalWidth) {
-                    x += totalWidth;
-                }
-                track.style.transform = `translateX(${x}px)`;
-            }
-            requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-
-        function moveBy(cards) {
-            const cardWidth = track.firstChild.offsetWidth + 32; // width + gap
-            const totalWidth = track.scrollWidth / 3;
-
-            x -= cards * cardWidth;
-
-            // Smooth drift
-            track.style.transition = "transform 0.4s ease-in-out";
-            track.style.transform = `translateX(${x}px)`;
-
-            track.addEventListener("transitionend", () => {
-                track.style.transition = "none";
-                if (-x >= totalWidth) {
-                    x += totalWidth;
-                } else if (x > 0) {
-                    x -= totalWidth;
-                }
-                track.style.transform = `translateX(${x}px)`;
-            }, { once: true });
-        }
-
-        prevBtn.addEventListener("click", () => moveBy(-1));
-        nextBtn.addEventListener("click", () => moveBy(1));
-
-        [container, prevBtn, nextBtn].forEach(el => {
-            el.addEventListener("mouseenter", () => paused = true);
-            el.addEventListener("mouseleave", () => paused = false);
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 
 </html>
-<!DOCTYPE html>
