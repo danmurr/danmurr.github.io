@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Script Dashboard</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <!-- Fixed Header -->
+    <div class="header">
+        <img src="https://images.squarespace-cdn.com/content/v1/62dc575aa4e96a7e08d02af6/8762015d-2778-4143-a370-f22054ff6f25/Untitled+design+%2830%29.png"
+            alt="Logo">
+        <div class="header-title">Script Dashboard</div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel-container" id="carousel">
+        <div class="lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <button class="arrow left" id="prevBtn">&#10094;</button>
+        <button class="arrow right" id="nextBtn">&#10095;</button>
+        <div class="track" id="track"></div>
+    </div>
+
+    <script>
+        const icons = [
+            { name: "icon1", status: "Ready", time: "10:15", date: "2025-09-15" },
+            { name: "icon2", status: "Pending", time: "11:20", date: "2025-09-15" },
+            { name: "icon3", status: "Error", time: "12:45", date: "2025-09-15" },
+            { name: "icon4", status: "Running", time: "13:30", date: "2025-09-15" },
+            { name: "icon5", status: "Complete", time: "14:10", date: "2025-09-15" },
+            { name: "icon6", status: "Complete", time: "14:10", date: "2025-09-15" },
+        ];
+
+        const track = document.getElementById("track");
+        const container = document.getElementById("carousel");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        // Duplicate icons for infinite scroll
+        const fullIcons = [...icons, ...icons, ...icons];
+        fullIcons.forEach((icon) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+        <div class="overlay"><span>▶</span></div>
+        <div class="name">${icon.name}</div>
+        <div class="meta">
+          Status: <span>${icon.status}</span><br>
+          ${icon.time} · ${icon.date}
+        </div>
+      `;
+            card.addEventListener("click", () => alert(`Running the script ${icon.name}`));
+            track.appendChild(card);
+        });
+
+        let x = 0;
+        let speed = 50; // px/sec
+        let lastTime = performance.now();
+        let paused = false;
+
+        function step(now) {
+            const dt = now - lastTime;
+            lastTime = now;
+            if (!paused) {
+                x -= (speed * dt) / 1000;
+                const totalWidth = track.scrollWidth / 3;
+                if (-x >= totalWidth) {
+                    x += totalWidth;
+                }
+                track.style.transform = `translateX(${x}px)`;
+            }
+            requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+
+        function moveBy(cards) {
+            const cardWidth = track.firstChild.offsetWidth + 32; // width + gap
+            const totalWidth = track.scrollWidth / 3;
+
+            x -= cards * cardWidth;
+
+            // Smooth drift
+            track.style.transition = "transform 0.4s ease-in-out";
+            track.style.transform = `translateX(${x}px)`;
+
+            track.addEventListener("transitionend", () => {
+                track.style.transition = "none";
+                if (-x >= totalWidth) {
+                    x += totalWidth;
+                } else if (x > 0) {
+                    x -= totalWidth;
+                }
+                track.style.transform = `translateX(${x}px)`;
+            }, { once: true });
+        }
+
+        prevBtn.addEventListener("click", () => moveBy(-1));
+        nextBtn.addEventListener("click", () => moveBy(1));
+
+        [container, prevBtn, nextBtn].forEach(el => {
+            el.addEventListener("mouseenter", () => paused = true);
+            el.addEventListener("mouseleave", () => paused = false);
+        });
+    </script>
+</body>
+
+</html>
+<!DOCTYPE html>
