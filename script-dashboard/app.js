@@ -1,12 +1,3 @@
-// Add login functionality
-// local store the login info
-// Use a database with login info
-// Pull the google sheet id from the database info
-// Use google sheet API to pull data from the sheet
-// Avoid global variables for security
-
-
-//ORRR
 /*
 Just use google sheet
 have user enter a code
@@ -17,21 +8,36 @@ function parseRows(rows) {
     for (let i = 1; i < rows.length; i++) { //Skip header row
         let name = rows[i][0];
         let description = rows[i][1];
-        let location = rows[i][2];
-        let meta = rows[i][3];
-        let scriptElt = `<div class="project" id="script-1">
-                    <h3><a href="${location}" target="_blank">${name}</a></h3>
+        let meta = rows[i][2];
+        let scriptElt = `<div class="project" id="${name.replace(/\s+/g, '-').toLowerCase()}">
+                    <h3><a href="#" target="_blank">${name}</a></h3>
                     <p>${description}</p>
                     <div class="meta">
                         ${meta}
                     </div>
                 </div>`;
         document.querySelector('.scripts').innerHTML += scriptElt;
-        const row = rows[i];
-        console.log(`Row ${i}:`, row);
-
     }
+    // Add click listeners to scripts
+    document.querySelectorAll('.project').forEach(elt => {
+        elt.addEventListener('click', (e) => {
+            alert(`Project ${elt.id} clicked`);
+            ExecutionString = `https://e1246crt89.execute-api.us-east-2.amazonaws.com/default/testFunction?script=${elt.id}`;
+            fetch(ExecutionString)
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Execution String:" + data);
+                });
+        });
+    });
+    // pullString = `https://test-dsa-labs.s3.us-east-2.amazonaws.com/output/example.csv`;
+    // fetch(pullString)
+    //     .then(res => res.text())
+    //     .then(data => {
+    //         console.log("Pull String: " + data);
+    //     });
 }
+
 
 console.log("App initialized");
 const sheetId = '1nNH3pJfK5c5kKeUsRLiFxOHL6WEL6h7F3fU76BNd2rg';

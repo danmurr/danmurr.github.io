@@ -7,10 +7,26 @@ body {
     line-height: 1.6;
 }
 
+.profile {
+    height: calc(100% - 0.8rem);
+    position: absolute;
+    left: 8%;
+    z-index: 1;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 850px) {
+    .profile {
+        display: none;
+    }
+}
+
 header {
+    position: relative;
     text-align: center;
     padding: .4rem 1rem;
     background: #fff;
+    /* background: #000; */
     border-bottom: 1px solid #ddd;
 }
 
