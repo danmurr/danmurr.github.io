@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <h1>Error Detector (helper code)- ECE 3544 Proj 3a</h1>
+        <h1>Error Detector (helper code)- ECE 3544 Proj 3A</h1>
         <p><strong>PLEASE NOTE:</strong> This code was AI-generated (it was not a requirement for this assignment,
             merely a helpful tool)</p>
     </header>
@@ -37,9 +37,9 @@
             }
 
             // Convert string to array of bits, indexed from 1..7 (for clarity)
-            var b = input.split("").map(Number); // b[1] = LSB (SW[3]), etc.
-            b.push(null); // b[0] unused
-            console.log(b);
+            var bits = input.split("").map(Number).reverse(); // now bits[0] = b1, bits[6] = b7
+            bits.unshift(null); // bits[1] = b1, bits[7] = b7
+            const b = bits;
             // Compute parity bits using same pattern as Verilog project:
             // P1 covers bits 1,3,5,7
             // P2 covers bits 2,3,6,7
