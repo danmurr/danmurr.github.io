@@ -89,3 +89,9 @@ footer {
     color: #777;
     border-top: 1px solid #ddd;
 }
+
+li {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Ensures the list item takes up the full width of the page */
+}
