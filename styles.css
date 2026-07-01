@@ -96,3 +96,14 @@ li {
     justify-content: space-between;
     width: 100%; /* Ensures the list item takes up the full width of the page */
 }
+
+ul, ol {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.school-bullet{
+    height: 2em;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
