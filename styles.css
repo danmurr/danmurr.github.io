@@ -1,5 +1,6 @@
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    /* font-family: 'Helvetica Neue', Arial, sans-serif; */
+    font-family:'Times New Roman', Times, serif;
     background-color: #fafafa;
     color: #222;
     margin: 0;
@@ -103,7 +104,8 @@ ul, ol {
 }
 
 .school-bullet{
+    width: 2em;
     height: 2em;
     padding-right: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 15px; 
 }
